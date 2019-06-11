@@ -54,6 +54,7 @@ export default class TaskController {
 
   async commentsRoute(req, res, next) {
     try {
+      req.body.authorId = req.session.uid
       let task = await _service.commentsRoute(req.params.id, req.body)
       return res.status(200).send(task)
     } catch (error) { next(error) }

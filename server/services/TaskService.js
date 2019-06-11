@@ -27,16 +27,16 @@ export default class TaskService {
     try {
       //review this for understanding and clarification
       let task = await this.repository.findById(id)
-      if (!comment._id) {
+      if (!comment._id) { //add comment
         task.comments.push(comment)
-      } else {
+      } else { // delete comment
         task.comments.forEach((c, i, a) => {
           if (c._id.toString() == comment._id) {
             a.splice(i, 1)
           }
         })
       }
-      await task.save()
+      await task.update()
       return task
     } catch (e) { console.error(e) }
   }

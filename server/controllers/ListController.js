@@ -1,9 +1,12 @@
 import express from 'express'
 // import UserService from '../services/UserService'
 import ListService from '../services/ListService'
+import TaskService from '../services/TaskService';
 
 let _service = new ListService()
 let _repo = _service.repository
+let _taskService = new TaskService()
+let _taskRepo = _taskService.repository
 // let _userRepo = _userService.repository
 // let _userService = new UserService()
 
@@ -12,6 +15,7 @@ export default class ListController {
     this.router = express.Router()
       .get('', this.getAllLists)
       .get('/:id', this.getListById)
+      .get('/:id/tasks', this.getTasks)
       // .use(Authorize.authenticated)
       .post('', this.createList)
       .put('/:id', this.editList)
@@ -32,7 +36,12 @@ export default class ListController {
       return res.send(list)
     } catch (error) { next(error) }
   }
-
+  async getTasks(req, res, next) {
+    try {
+      let data = await _taskRepo.find({ listId: req.params.id, authorId: req.session.uid })
+      return res.send(data)
+    } catch (error) { next(error) }
+  }
   async createList(req, res, next) {
     try {
       req.body.authorId = req.session.uid
