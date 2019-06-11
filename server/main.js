@@ -36,11 +36,13 @@ import Session from "./middlewear/session"
 import AuthController from './controllers/AuthController'
 import BoardController from './controllers/BoardController'
 import ListController from './controllers/ListController'
+import TaskController from './controllers/TaskController'
 
 server.use(new Session().express)
 server.use('/auth', new AuthController().router)
 server.use('/api/boards', new BoardController().router)
-server.use('/api/list', new ListController().router)
+server.use('/api/tasks', new TaskController().router)
+server.use('/api/lists', new ListController().router)
 
 
 

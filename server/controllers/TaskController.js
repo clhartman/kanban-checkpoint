@@ -1,47 +1,38 @@
-import BoardService from '../services/BoardService'
+import TaskService from '../services/TaskService'
 import express from 'express'
-import { Authorize } from '../middlewear/authorize'
-import ListService from '../services/ListService'
 
-//import service and create an instance
-let _service = new BoardService()
+let _service = new TaskService()
 let _repo = _service.repository
-let _listService = new ListService()
-let _listRepo = _listService.repository
 
-
-//PUBLIC
-export default class BoardsController {
+export default class TaskController {
   constructor() {
     this.router = express.Router()
       .get('', this.getAll)
-      .use(Authorize.authenticated)
-      .get('/:id/lists', this.getLists)
+      // .get('/:id/tasks/', this.getById)
       .post('', this.create)
       .put('/:id', this.edit)
+      .put('/:id/comments', this.commentsRoute)
       .delete('/:id', this.delete)
       .use(this.defaultRoute)
   }
-
   defaultRoute(req, res, next) {
     next({ status: 404, message: 'No Such Route' })
   }
 
   async getAll(req, res, next) {
     try {
-      //only gets boards by user who is logged in
-      let data = await _repo.find({ authorId: req.session.uid })
+      let data = await _repo.find({})
       return res.send(data)
     }
     catch (err) { next(err) }
   }
 
-  async getLists(req, res, next) {
-    try {
-      let data = await _listRepo.find({ boardId: req.params.id, authorId: req.session.uid })
-      return res.send(data)
-    } catch (error) { next(error) }
-  }
+  // async getById(req, res, next) {
+  //   try {
+  //     let data = await _repo.findOne({ _id: req.params.id}).populate('list')
+  //     return res.send(data)
+  //   } catch (error) { next(error) }
+  // }
 
   async create(req, res, next) {
     try {
@@ -61,6 +52,13 @@ export default class BoardsController {
     } catch (error) { next(error) }
   }
 
+  async commentsRoute(req, res, next) {
+    try {
+      let task = await _service.commentsRoute(req.params.id, req.body)
+      return res.status(200).send(task)
+    } catch (error) { next(error) }
+  }
+
   async delete(req, res, next) {
     try {
       await _repo.findOneAndRemove({ _id: req.params.id, authorId: req.session.uid })
@@ -68,5 +66,3 @@ export default class BoardsController {
     } catch (error) { next(error) }
   }
 }
-
-

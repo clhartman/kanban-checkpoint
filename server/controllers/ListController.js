@@ -21,20 +21,21 @@ export default class ListController {
 
   async getAllLists(req, res, next) {
     try {
-      let lists = await _repo.find({}).populate('board')
+      let lists = await _repo.find({})
       return res.send(lists)
     } catch (error) { next(error) }
   }
 
   async getListById(req, res, next) {
     try {
-      let list = await _repo.findById(req.params.id).populate('board')
+      let list = await _repo.findById(req.params.id)
       return res.send(list)
     } catch (error) { next(error) }
   }
 
   async createList(req, res, next) {
     try {
+      req.body.authorId = req.session.uid
       let list = await _repo.create(req.body)
       return res.status(201).send(list)
     } catch (error) { next(error) }

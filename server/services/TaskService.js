@@ -1,11 +1,11 @@
-import mongoose, { Mongoose } from 'mongoose';
+import mongoose from 'mongoose';
 
 let ObjectId = mongoose.Schema.Types.ObjectId
 
-let _commentSchema = new.mongoose.Schema({
+let _commentSchema = new mongoose.Schema({
   user: { type: String, required: true },
-  content: { type: String, required: true }
-  taskId: { type: ObjectId, ref: 'task', required: true } //do we need to turn TaskId into an Object ID in order to import it in our schema?
+  content: { type: String, required: true },
+  taskId: { type: ObjectId, ref: 'task', required: true }
 
 }, { timestamps: true })
 
@@ -20,7 +20,7 @@ let _schema = new mongoose.Schema({
 
 export default class TaskService {
   get repository() {
-    return.mongoose.model('task', _schema)
+    return mongoose.model('task', _schema)
   }
 
   async commentsRoute(id, comment) {
