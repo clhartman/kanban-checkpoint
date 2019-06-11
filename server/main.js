@@ -31,17 +31,19 @@ server.use(bp.urlencoded({
 }))
 
 //REGISTER YOUR SESSION, OTHERWISE YOU WILL NEVER GET LOGGED IN
+//YOUR ROUTES HERE!!!!!!
 import Session from "./middlewear/session"
 import AuthController from './controllers/AuthController'
+import BoardController from './controllers/BoardController'
+import ListController from './controllers/ListController'
 
 server.use(new Session().express)
 server.use('/auth', new AuthController().router)
-
-
-
-//YOUR ROUTES HERE!!!!!!
-import BoardController from './controllers/BoardController'
 server.use('/api/boards', new BoardController().router)
+server.use('/api/list', new ListController().router)
+
+
+
 
 
 

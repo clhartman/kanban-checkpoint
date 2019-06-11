@@ -34,7 +34,7 @@ export default class BoardsController {
 
   async getById(req, res, next) {
     try {
-      let data = await _repo.findOne({ _id: req.params.id, authorId: req.session.uid })
+      let data = await _repo.findOne({ _id: req.params.id, authorId: req.session.uid }).populate('list')
       return res.send(data)
     } catch (error) { next(error) }
   }
