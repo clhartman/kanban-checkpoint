@@ -4,7 +4,9 @@ import Axios from 'axios'
 import router from './router'
 
 Vue.use(Vuex)
-
+let _api = Axios.create({
+  baseURL: '//localhost:3000/api'
+})
 //Allows axios to work locally or live
 let base = window.location.host.includes('localhost:8080') ? '//localhost:3000/' : '/'
 
@@ -32,8 +34,13 @@ export default new Vuex.Store({
     },
     setBoards(state, boards) {
       state.boards = boards
+    },
+    setActiveBoard(state, activeBoard) {
+      state.activeBoard = activeBoard
+      router.push({ name: 'board', params: { boardId: activeBoard._id } })
     }
   },
+
   actions: {
     //#region -- AUTH STUFF --
     register({ commit, dispatch }, newUser) {
@@ -70,6 +77,17 @@ export default new Vuex.Store({
           commit('setBoards', res.data)
         })
     },
+    getActiveBoard({ commit, dispatch }, activeBoard) {
+      commit('setActiveBoard', activeBoard)
+    },
+
+    async getBoardById({ commit, dispatch }, boardId) {
+      try {
+        let res = await _api.get('/boards' + boardId + '/lists')
+        commit('setActiveBoard', res.data)
+      } catch (error) { console.error(error) }
+    },
+
     addBoard({ commit, dispatch }, boardData) {
       api.post('boards', boardData)
         .then(serverBoard => {
