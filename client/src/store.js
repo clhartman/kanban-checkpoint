@@ -3,6 +3,7 @@ import Vuex from 'vuex'
 import Axios from 'axios'
 import router from './router'
 
+
 Vue.use(Vuex)
 let _api = Axios.create({
   baseURL: '//localhost:3000/api'
@@ -26,7 +27,8 @@ export default new Vuex.Store({
   state: {
     user: {},
     boards: [],
-    activeBoard: {}
+    activeBoard: {},
+    lists: []
   },
   mutations: {
     setUser(state, user) {
@@ -38,6 +40,9 @@ export default new Vuex.Store({
     setActiveBoard(state, activeBoard) {
       state.activeBoard = activeBoard
       router.push({ name: 'board', params: { boardId: activeBoard._id } })
+    },
+    setLists(state, lists) {
+      state.lists = lists
     }
   },
 
@@ -99,12 +104,48 @@ export default new Vuex.Store({
         .then(res => {
           dispatch('getBoards')
         })
-    }
+    },
     //#endregion
 
 
     //#region -- LISTS --
+    getLists({ commit, dispatch }, boardId) {
+      api.get('/boards' + boardId + '/lists')
+        .then(res => {
+          commit('setLists', res.data)
+        })
+    },
+    // getActiveBoard({ commit, dispatch }, activeBoard) {
+    //   commit('setActiveBoard', activeBoard)
+    // },
 
+    // async getBoardById({ commit, dispatch }, boardId) {
+    //   try {
+    //     let res = await _api.get('/boards' + boardId + '/lists')
+    //     commit('setActiveBoard', res.data)
+    //   } catch (error) { console.error(error) }
+    // },
+    async addList({ commit, dispatch }, payload) {
+      try {
+        let res = await _api.post('/lists', payload)
+        dispatch('getLists', res.data)
+      } catch (error) {
+        console.error(error)
+
+      }
+    }
+    // addList({ commit, dispatch }, boardData) {
+    //   api.post('lists', boardData)
+    //     .then(serverBoard => {
+    //       dispatch('getLists')
+    //     })
+    // }
+    // deleteBoard({ commit, dispatch }, boardId) {
+    //   api.delete('boards/' + boardId)
+    //     .then(res => {
+    //       dispatch('getBoards')
+    //     })
+    // }
 
 
     //#endregion

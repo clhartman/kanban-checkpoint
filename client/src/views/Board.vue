@@ -9,25 +9,23 @@
         <div class="card">
           <div class="card-body">
             <h5 class="card-title">Card title</h5>
-            <button class='btn' type="button" data-toggle="collapse" data-target="form1" aria-expanded="false"
+            <!-- <button class='btn' type="button" data-toggle="collapse" data-target="form1" aria-expanded="false"
               aria-controls="form1">+
               Add
               List
+            </button> -->
 
-              <form class="form-inline collapse" id='form1'>
-                <div class="form-group mb-2">
-                  <input type="text" readonly class="form-control-plaintext" id="staticEmail2">
-                </div>
-                <div class="form-group mx-sm-3 mb-2">
-                  <input type="text" class="form-control" placeholder="Create List">
-                </div>
-                <button type="submit" class="btn btn-primary mb-2">Add List</button>
-              </form>
-            </button>
+            <form class="form-inline" @submit.prevent="submitList" id='form1'>
+              <div class="form-group mx-sm-3 mb-2">
+                <input type="text" class="form-control" placeholder="Create List" v-model='newList.title'>
+              </div>
+              <button type="submit" class="btn btn-primary mb-2" @click="addList">Add List</button>
+            </form>
           </div>
         </div>
       </div>
-      <div class="col">here is where the lists will populate</div>
+      <list-card />
+
     </div>
 
     <!-- <list v-for="list in lists" :listData='list'></list> -->
@@ -35,8 +33,16 @@
 </template>
 
 <script>
+  import ListCard from '@/components/ListCard.vue'
   export default {
     name: "board",
+    data() {
+      return {
+        newList: {
+          title: ''
+        }
+      }
+    },
     mounted() {
       if (!this.board._id) {
 
@@ -51,6 +57,22 @@
           }
         );
       }
+    },
+    mounted(boardId) {
+      this.$store.dispatch('getLists', boardId)
+    },
+    methods: {
+      submitList({ target: form }) {
+        let list = { ...this.newList, boardId: this.board._id }
+        this.$store.dispatch(list)
+        form.reset()
+      },
+      addList(list) {
+        this.$store.dispatch("addlist", list)
+      }
+    },
+    components: {
+      ListCard
     },
     props: ["boardId"]
   };
