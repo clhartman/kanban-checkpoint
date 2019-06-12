@@ -5,12 +5,9 @@
         <div class="card-header">
           {{list.title}} <i class="fas fa-trash-alt" @click="deleteList(list)"></i>
         </div>
+        <task :listId="list._id" />
         <!-- this will be the task -->
-        <ul class="list-group list-group-flush">
-          <li class="list-group-item">Cras justo odio</li>
-          <li class="list-group-item">Dapibus ac facilisis in</li>
-          <li class="list-group-item">Vestibulum at eros</li>
-        </ul>
+
       </div>
     </div>
 
@@ -19,9 +16,10 @@
 </template>
 
 <script>
+  import Task from '@/components/Task.vue'
   export default {
     name: 'ListCard',
-    props: ['listId'],
+    props: [],
     computed: {
       lists() {
         return this.$store.state.lists;
@@ -31,9 +29,16 @@
       deleteList(list) {
         this.$store.dispatch('deleteList', list);
       }
+    },
+    components: {
+      Task
     }
   }
 </script>
 
 <style scoped>
+  .col {
+    display: flex;
+    flex-direction: row;
+  }
 </style>

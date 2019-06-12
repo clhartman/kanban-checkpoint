@@ -66,7 +66,6 @@
     },
     methods: {
       submitList({ target: form }) {
-        debugger
         let list = { ...this.newList, boardId: this.boardId }
         this.$store.dispatch('addList', list)
         form.reset()

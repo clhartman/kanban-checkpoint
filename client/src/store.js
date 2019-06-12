@@ -26,7 +26,8 @@ export default new Vuex.Store({
     user: {},
     boards: [],
     activeBoard: {},
-    lists: []
+    lists: [],
+    tasks: {}
   },
   mutations: {
     setUser(state, user) {
@@ -41,6 +42,9 @@ export default new Vuex.Store({
     },
     setLists(state, lists) {
       state.lists = lists
+    },
+    setTasks(state, payload) {
+      Vue.set(state.tasks, payload.listId, payload.tasks) //this makes the page reactive by forcing computed to fire
     }
   },
 
@@ -86,7 +90,7 @@ export default new Vuex.Store({
 
     async getBoardById({ commit, dispatch }, boardId) {
       try {
-        let res = await _api.get('/boards' + boardId + '/lists')
+        let res = await api.get('/boards' + boardId + '/lists')
         commit('setActiveBoard', res.data)
       } catch (error) { console.error(error) }
     },
@@ -136,11 +140,10 @@ export default new Vuex.Store({
     },
     async deleteList({ commit, dispatch }, list) {
       try {
-        debugger
         let res = await api.delete('/lists/' + list._id)
         dispatch('getLists', list.boardId)
       } catch (error) { console.error(error) }
-    }
+    },
     // addList({ commit, dispatch }, boardData) {
     //   api.post('lists', boardData)
     //     .then(serverBoard => {
@@ -154,6 +157,33 @@ export default new Vuex.Store({
     //     })
     // }
 
+
+    //#endregion
+
+
+    //#region --TASKS--
+    async getTasks({ commit, dispatch }, listId) {
+      try {
+        let res = await api.get("/lists/" + listId + "/tasks")
+        commit('setTasks', { tasks: res.data, listId: listId })
+        console.log(res)
+      } catch (error) { console.error(error) }
+    },
+
+    async addTask({ commit, dispatch }, payload) {
+      try {
+        let res = await api.post("/tasks", payload)
+        dispatch('getTasks', payload.listId)
+        console.log(res)
+      } catch (error) { console.error(error) }
+    },
+
+    async deleteTask({ commit, dispatch }, task) {
+      try {
+        let res = await api.delete('/tasks/' + task._id)
+        dispatch('getTasks', task.listId)
+      } catch (error) { console.error(error) }
+    },
 
     //#endregion
   }
