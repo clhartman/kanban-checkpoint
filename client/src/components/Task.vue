@@ -4,6 +4,7 @@
       <li class="list-group-item" v-for="task in tasks" :key="task._id">
         <h3>{{task.title}}<i class="fas fa-eraser" @click="deleteTask(task)"></i></h3>
         - <p>{{task.description}}</p>
+        <comment v-for="comment in task.comments" :commentData="comment" :task="task" />
       </li>
       <li class="list-group-item">
         <form class="form-inline" @submit.prevent="submitTask" id='form1'>
@@ -22,6 +23,7 @@
 </template>
 
 <script>
+  import Comment from '@/components/Comment.vue'
   export default {
     name: "Task",
     props: ['listId'],
@@ -52,7 +54,9 @@
         this.$store.dispatch('deleteTask', task);
       }
     },
-    components: {}
+    components: {
+      Comment
+    }
   }
 </script>
 <style>

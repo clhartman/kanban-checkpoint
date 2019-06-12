@@ -27,7 +27,9 @@ export default new Vuex.Store({
     boards: [],
     activeBoard: {},
     lists: [],
-    tasks: {}
+    tasks: {
+      comments: []
+    }
   },
   mutations: {
     setUser(state, user) {
@@ -184,6 +186,32 @@ export default new Vuex.Store({
         dispatch('getTasks', task.listId)
       } catch (error) { console.error(error) }
     },
+
+    //#endregion
+    //#region --COMMENTS--
+    // async getComments({ commit, dispatch }, taskId) {
+    //   try {
+    //     let res = await api.get("/tasks/" + taskId + "/comments")
+    //     commit('setTasks', { tasks: res.data, listId: listId })
+    //     console.log(res)
+    //   } catch (error) { console.error(error) }
+    // },
+
+    async addComment({ commit, dispatch }, task) {
+      try {
+        debugger
+        let res = await api.put("/tasks/" + task._id, task)
+        dispatch('getTasks', task.listId)
+        console.log(res)
+      } catch (error) { console.error(error) }
+    },
+
+    // async deleteComment({ commit, dispatch }, task) {
+    //   try {
+    //     let res = await api.delete('/tasks/' + task._id)
+    //     dispatch('getTasks', task.listId)
+    //   } catch (error) { console.error(error) }
+    // },
 
     //#endregion
   }
