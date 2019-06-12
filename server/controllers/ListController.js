@@ -2,6 +2,7 @@ import express from 'express'
 // import UserService from '../services/UserService'
 import ListService from '../services/ListService'
 import TaskService from '../services/TaskService';
+import { Authorize } from '../middlewear/authorize'
 
 let _service = new ListService()
 let _repo = _service.repository
@@ -16,7 +17,7 @@ export default class ListController {
       .get('', this.getAllLists)
       .get('/:id', this.getListById)
       .get('/:id/tasks', this.getTasks)
-      // .use(Authorize.authenticated)
+      .use(Authorize.authenticated)
       .post('', this.createList)
       .put('/:id', this.editList)
       .delete('/:id', this.deleteList)
@@ -59,7 +60,8 @@ export default class ListController {
 
   async deleteList(req, res, next) {
     try {
-      let list = await _repo.findByIdAndDelete(req.params.id)
+      let list = await _repo.findOne({ _id: req.params.id, authorId: req.session.uid })
+      await list.remove()
       return res.send("It's Gone!")
     } catch (error) { next(error) }
   }
@@ -67,6 +69,5 @@ export default class ListController {
   defaultRoute(req, res, next) {
     next({ status: 400, message: "No Such List - Go Home" })
   }
-
 
 }

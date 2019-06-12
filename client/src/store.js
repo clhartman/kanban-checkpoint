@@ -5,9 +5,7 @@ import router from './router'
 
 
 Vue.use(Vuex)
-let _api = Axios.create({
-  baseURL: '//localhost:3000/api'
-})
+
 //Allows axios to work locally or live
 let base = window.location.host.includes('localhost:8080') ? '//localhost:3000/' : '/'
 
@@ -59,7 +57,7 @@ export default new Vuex.Store({
       auth.get('authenticate')
         .then(res => {
           commit('setUser', res.data)
-          router.push({ name: 'boards' })
+          // router.push({ name: 'boards' })
         })
         .catch(res => {
           router.push({ name: 'login' })
@@ -110,9 +108,10 @@ export default new Vuex.Store({
 
     //#region -- LISTS --
     getLists({ commit, dispatch }, boardId) {
-      api.get('/boards' + boardId + '/lists')
+      api.get('/boards/' + boardId + '/lists')
         .then(res => {
           commit('setLists', res.data)
+          console.log(res)
         })
     },
     // getActiveBoard({ commit, dispatch }, activeBoard) {
@@ -127,12 +126,20 @@ export default new Vuex.Store({
     // },
     async addList({ commit, dispatch }, payload) {
       try {
-        let res = await _api.post('/lists', payload)
-        dispatch('getLists', res.data)
+        let res = await api.post('/lists', payload)
+        dispatch('getLists', payload.boardId)
       } catch (error) {
         console.error(error)
 
       }
+
+    },
+    async deleteList({ commit, dispatch }, list) {
+      try {
+        debugger
+        let res = await api.delete('/lists/' + list._id)
+        dispatch('getLists', list.boardId)
+      } catch (error) { console.error(error) }
     }
     // addList({ commit, dispatch }, boardData) {
     //   api.post('lists', boardData)

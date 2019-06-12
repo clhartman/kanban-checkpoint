@@ -2,7 +2,7 @@
   <div class="board container-fluid">
     {{board.title}}
     <div class="row">
-
+      <!-- nav bar -->
     </div>
     <div class="row">
       <div class="col">
@@ -19,7 +19,7 @@
               <div class="form-group mx-sm-3 mb-2">
                 <input type="text" class="form-control" placeholder="Create List" v-model='newList.title'>
               </div>
-              <button type="submit" class="btn btn-primary mb-2" @click="addList">Add List</button>
+              <button type="submit" class="btn btn-primary mb-2">Add List</button>
             </form>
           </div>
         </div>
@@ -39,7 +39,9 @@
     data() {
       return {
         newList: {
-          title: ''
+          title: '',
+          boardId: this.boardId
+
         }
       }
     },
@@ -58,17 +60,19 @@
         );
       }
     },
-    mounted(boardId) {
-      this.$store.dispatch('getLists', boardId)
+    mounted() {
+      // let boardId = this.$route.params.id
+      this.$store.dispatch('getLists', this.boardId)
     },
     methods: {
       submitList({ target: form }) {
-        let list = { ...this.newList, boardId: this.board._id }
-        this.$store.dispatch(list)
+        debugger
+        let list = { ...this.newList, boardId: this.boardId }
+        this.$store.dispatch('addList', list)
         form.reset()
       },
-      addList(list) {
-        this.$store.dispatch("addlist", list)
+      addList() {
+        this.$store.dispatch("addList", this.newList)
       }
     },
     components: {

@@ -63,7 +63,8 @@ export default class BoardsController {
 
   async delete(req, res, next) {
     try {
-      await _repo.findOneAndRemove({ _id: req.params.id, authorId: req.session.uid })
+      let board = await _repo.findOne({ _id: req.params.id, authorId: req.session.uid })
+      await board.remove()
       return res.send("Successfully deleted")
     } catch (error) { next(error) }
   }
