@@ -1,62 +1,61 @@
 <template>
   <div class="task">
     <ul class="list-group list-group-flush">
-      <li class="list-group-item" v-for="task in tasks" :key="task._id">
-        <h3>{{task.title}}<i class="fas fa-eraser" @click="deleteTask(task)"></i></h3>
-        - <p>{{task.description}}</p>
-        <comment v-for="comment in task.comments" :commentData="comment" :task="task" />
+      <li class="list-group-item">
+        <h3>{{taskData.title}}<i class="fas fa-eraser" @click="deleteTask"></i></h3>
+        <p>{{taskData.description}}</p>
+
       </li>
       <li class="list-group-item">
-        <form class="form-inline" @submit.prevent="submitTask" id='form1'>
-          <div class="form-group mx-sm-3 mb-2">
-            <input type="text" class="form-control" placeholder="Add a Task" v-model='newTask.title'>
-          </div>
-          <div class="form-group mx-sm-3 mb-2">
-            <input type="text" class="form-control" placeholder="Description" v-model='newTask.description'>
-          </div>
-          <button type="submit" class="btn btn-primary mb-2"><i class="fas fa-plus"></i></button>
-        </form>
 
       </li>
     </ul>
+    <!-- {{taskData.title}} -->
+    <comment v-for="comment in taskData.comments" :task="taskData" />
+    <form class="form-inline" @submit.prevent="submitComment">
+      <div class="form-group mx-sm-3 mb-2">
+        <input type="text" class="form-control" placeholder="Comments" v-model="newComment.content">
+        <input type="text" class="form-control" placeholder="User" v-model="newComment.user">
+        <button class="btn btn-info" type="submit"><i class="fas fa-plus"></i></button>
+      </div>
+    </form>
+    <p>{{comment.content}} - {{comment.user}}</p>
   </div>
 </template>
 
 <script>
-  import Comment from '@/components/Comment.vue'
   export default {
     name: "Task",
-    props: ['listId'],
+    props: ['taskData'],
     data() {
       return {
-        newTask: {
-          title: '',
-          description: '',
-          listId: this.listId,
-          comments: []
+        newComment: {
+          content: '',
+          user: '',
+          taskId: this.taskData._id,
+          listId: this.taskData.listId
         }
       }
     },
-    mounted(listId) {
-      this.$store.dispatch('getTasks', this.listId)
-    },
     computed: {
-      tasks() {
+      comments() {
         return this.$store.state.tasks[this.listId] || []
       }
     },
     methods: {
-      submitTask({ target: form }) {
-        this.$store.dispatch('addTask', this.newTask)
+      submitComment({ target: form }) {
+        this.taskData.comments.push(this.newComment)
+        this.$store.dispatch('addComment', this.taskData)
         form.reset()
       },
-      deleteTask(task) {
-        this.$store.dispatch('deleteTask', task);
-      }
-    },
-    components: {
-      Comment
+      deleteTask() {
+        this.$store.dispatch('deleteTask', this.taskData);
+      },
+      deleteComment() {
+        this.$store.dispatch('deleteComment', this.comment);
+      },
     }
+
   }
 </script>
 <style>

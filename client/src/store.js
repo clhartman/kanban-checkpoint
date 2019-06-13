@@ -76,6 +76,10 @@ export default new Vuex.Store({
           router.push({ name: 'boards' })
         })
     },
+
+    //logout will be similar to above but with a delete route
+
+
     //#endregion
 
 
@@ -92,7 +96,7 @@ export default new Vuex.Store({
 
     async getBoardById({ commit, dispatch }, boardId) {
       try {
-        let res = await api.get('/boards' + boardId + '/lists')
+        let res = await api.get('/boards/' + boardId)
         commit('setActiveBoard', res.data)
       } catch (error) { console.error(error) }
     },
@@ -114,6 +118,7 @@ export default new Vuex.Store({
 
     //#region -- LISTS --
     getLists({ commit, dispatch }, boardId) {
+      console.log('triggered')
       api.get('/boards/' + boardId + '/lists')
         .then(res => {
           commit('setLists', res.data)
@@ -133,6 +138,7 @@ export default new Vuex.Store({
     async addList({ commit, dispatch }, payload) {
       try {
         let res = await api.post('/lists', payload)
+        debugger
         dispatch('getLists', payload.boardId)
       } catch (error) {
         console.error(error)
@@ -143,6 +149,7 @@ export default new Vuex.Store({
     async deleteList({ commit, dispatch }, list) {
       try {
         let res = await api.delete('/lists/' + list._id)
+        debugger
         dispatch('getLists', list.boardId)
       } catch (error) { console.error(error) }
     },
@@ -199,7 +206,6 @@ export default new Vuex.Store({
 
     async addComment({ commit, dispatch }, task) {
       try {
-        debugger
         let res = await api.put("/tasks/" + task._id, task)
         dispatch('getTasks', task.listId)
         console.log(res)

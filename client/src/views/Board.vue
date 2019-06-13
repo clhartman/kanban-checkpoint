@@ -6,26 +6,11 @@
     </div>
     <div class="row">
       <div class="col">
-        <div class="card">
-          <div class="card-body">
-            <h5 class="card-title">Card title</h5>
-            <!-- <button class='btn' type="button" data-toggle="collapse" data-target="form1" aria-expanded="false"
-              aria-controls="form1">+
-              Add
-              List
-            </button> -->
-
-            <form class="form-inline" @submit.prevent="submitList" id='form1'>
-              <div class="form-group mx-sm-3 mb-2">
-                <input type="text" class="form-control" placeholder="Create List" v-model='newList.title'>
-              </div>
-              <button type="submit" class="btn btn-primary mb-2">Add List</button>
-            </form>
-          </div>
-        </div>
+        <board :boardId="boardId" />
       </div>
-      <list-card />
-
+      <div class="col">
+        <list-card v-for="l in lists" :key="l._id" :listData="l" />
+      </div>
     </div>
 
     <!-- <list v-for="list in lists" :listData='list'></list> -->
@@ -34,24 +19,26 @@
 
 <script>
   import ListCard from '@/components/ListCard.vue'
+  import Board from '@/components/Board.vue'
+
   export default {
-    name: "board",
+    name: "BoardView",
+    props: ["boardId"],
     data() {
       return {
-        newList: {
-          title: '',
-          boardId: this.boardId
 
-        }
       }
     },
     mounted() {
       if (!this.board._id) {
-
-        this.$store.dispatch('getBoardById', this.$route.params.id)
+        this.$store.dispatch('getBoards')
       }
+      this.$store.dispatch('getLists', this.boardId)
     },
     computed: {
+      lists() {
+        return this.$store.state.lists;
+      },
       board() {
         return (
           this.$store.state.boards.find(b => b._id == this.boardId) || {
@@ -60,23 +47,10 @@
         );
       }
     },
-    mounted() {
-      // let boardId = this.$route.params.id
-      this.$store.dispatch('getLists', this.boardId)
-    },
-    methods: {
-      submitList({ target: form }) {
-        let list = { ...this.newList, boardId: this.boardId }
-        this.$store.dispatch('addList', list)
-        form.reset()
-      },
-      addList() {
-        this.$store.dispatch("addList", this.newList)
-      }
-    },
     components: {
-      ListCard
-    },
-    props: ["boardId"]
-  };
+      ListCard,
+      Board
+    }
+  }
+
 </script>
