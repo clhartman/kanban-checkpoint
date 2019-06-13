@@ -4,7 +4,7 @@
       <div class="card-header">
         {{listData.title}} <i class="fas fa-trash-alt" @click="deleteList"></i>
       </div>
-      <task v-for="task in tasks" :taskData="task" />
+      <task v-for="task in tasks" :taskData="task" :listData="listData" />
     </div>
     <!-- make new tasks here with task create form -->
     <form class="form-inline" @submit.prevent="submitTask" id='form1'>
@@ -61,5 +61,9 @@
   .col {
     display: flex;
     flex-direction: row;
+  }
+
+  .card {
+    max-width: 200px;
   }
 </style>

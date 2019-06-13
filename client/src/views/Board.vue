@@ -1,6 +1,7 @@
 <template>
-  <div class="board container-fluid">
+  <div class="board-view container-fluid">
     {{board.title}}
+
     <div class="row">
       <!-- nav bar -->
     </div>
@@ -54,3 +55,10 @@
   }
 
 </script>
+<style>
+  .board-view {
+    background-image: url(https://images.unsplash.com/photo-1496450681664-3df85efbd29f?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=2700&q=80);
+    min-height: 100vh;
+    background-size: cover;
+  }
+</style>

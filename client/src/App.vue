@@ -18,6 +18,13 @@
     -moz-osx-font-smoothing: grayscale;
     text-align: center;
     color: #2c3e50;
+    background-color: rgba(10, 10, 10, 0.7);
+    height: 50px;
+    z-index: 1;
+  }
+
+  h1 {
+    z-index: 2;
   }
 
   #nav {

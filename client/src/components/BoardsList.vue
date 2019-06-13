@@ -1,13 +1,11 @@
 <template>
-  <div class="boards container">
-    <div class="row">
-      <div class="col">
-        <div class="card p-3" v-for="board in boards" :key="board._id" @click="boardDetails(board)">
-          <blockquote class="blockquote mb-0 card-body">
-            <h3>{{ board.title }}</h3>
-          </blockquote>
-          <button @click="deleteBoard(board._id)">DELETE BOARD</button>
-        </div>
+  <div class="boards">
+    <div class="col" v-for="board in boards" :key="board._id" @click="boardDetails(board)">
+      <div class="card p-3">
+        <blockquote class="blockquote mb-0 card-body">
+          <h3>{{ board.title }}</h3>
+        </blockquote>
+        <button @click.stop="deleteBoard(board._id)">DELETE BOARD</button>
       </div>
     </div>
   </div>
@@ -44,3 +42,10 @@
 
   }
 </script>
+
+<style>
+  .card {
+    display: flex;
+    flex-direction: row;
+  }
+</style>

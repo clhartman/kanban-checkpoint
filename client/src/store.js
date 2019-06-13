@@ -76,6 +76,13 @@ export default new Vuex.Store({
           router.push({ name: 'boards' })
         })
     },
+    logout({ commit, dispatch }, creds) {
+      auth.delete('logout', creds)
+        .then(res => {
+          commit('setUser', res.data)
+          router.push({ name: 'login' })
+        })
+    },
 
     //logout will be similar to above but with a delete route
 
@@ -194,6 +201,19 @@ export default new Vuex.Store({
       } catch (error) { console.error(error) }
     },
 
+    async moveTask({ commit, dispatch }, payload) {
+      try {
+        let res = await api.put('/tasks', payload)
+        dispatch('getTasks', payload.listId)
+        dispatch('getTasks', payload)
+      } catch (error) { console.error(error) }
+    },
+
+    //  fire put request to tasks/:id
+    //dispatch to getTasks with task.listID
+    //dispatch to getTasks with old ListID
+
+
     //#endregion
     //#region --COMMENTS--
     // async getComments({ commit, dispatch }, taskId) {
@@ -212,12 +232,12 @@ export default new Vuex.Store({
       } catch (error) { console.error(error) }
     },
 
-    // async deleteComment({ commit, dispatch }, task) {
-    //   try {
-    //     let res = await api.delete('/tasks/' + task._id)
-    //     dispatch('getTasks', task.listId)
-    //   } catch (error) { console.error(error) }
-    // },
+    async deleteComment({ commit, dispatch }, payload) {
+      try {
+        let res = await api.put('/tasks/' + payload._id, payload)
+        dispatch('getTasks', payload.listId)
+      } catch (error) { console.error(error) }
+    }
 
     //#endregion
   }
