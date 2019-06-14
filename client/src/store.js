@@ -201,11 +201,11 @@ export default new Vuex.Store({
       } catch (error) { console.error(error) }
     },
 
-    async moveTask({ commit, dispatch }, payload) {
+    async moveTask({ commit, dispatch }, taskData) {
       try {
-        let res = await api.put('/tasks', payload)
-        dispatch('getTasks', payload.listId)
-        dispatch('getTasks', payload)
+        let res = await api.put('/tasks/' + taskData._id, taskData)
+        dispatch('getTasks', taskData.listId)
+        dispatch('getTasks', taskData.oldId)
       } catch (error) { console.error(error) }
     },
 

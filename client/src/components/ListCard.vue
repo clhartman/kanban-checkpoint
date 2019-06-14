@@ -70,4 +70,8 @@
   .add-task-form {
     margin: 10px
   }
+
+  .list-title-text {
+    font-size: 18px;
+  }
 </style>

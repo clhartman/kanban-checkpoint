@@ -2,13 +2,12 @@
   <div class="board">
     <div class="card">
       <div class="card-body">
-        <h5 class="card-title">Card title</h5>
         <!-- <button class='btn' type="button" data-toggle="collapse" data-target="form1" aria-expanded="false"
               aria-controls="form1">+
               Add
               List
             </button> -->
-        <form class="add-list-form" @submit.prevent="submitList" id='form1'>
+        <form class="add-list-form" @submit.prevent="submitList">
           <div class="input-group">
             <input type="text" class="form-control" placeholder="Create List" v-model='newList.title'>
             <div class="input-group-append">

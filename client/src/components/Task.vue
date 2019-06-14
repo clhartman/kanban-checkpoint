@@ -8,9 +8,9 @@
         </button>
       </div>
       <p>{{taskData.description}}</p>
-      <select v-model="selected">
+      <select v-model="selected" @change="moveTask">
         <option disabled value="">Move Task...</option>
-        <option v-for="list in lists" :value="list._id" @click="moveTask(selected)">{{list.title}}</option>
+        <option v-for="list in lists" :value="list._id">{{list.title}}</option>
       </select>
     </div>
     <div class="card-body task-body">
@@ -27,7 +27,6 @@
           <div class="input-group-append">
             <button class="btn btn-success" type="submit"><i class="fas fa-plus"></i></button>
           </div>
-
         </div>
       </form>
     </div>
@@ -75,11 +74,12 @@
         this.taskData.comments.splice(index, 1)
         this.$store.dispatch('deleteComment', this.taskData)
       },
-      moveTask(selected) {
-        debugger
+      moveTask() {
+        console.log(`***** Task.vue - moveTask - selected: <${this.selected}>`)
         this.taskData.oldId = this.taskData.listId
         this.taskData.listId = this.selected
-        this.$store.dispatch('moveTask', this.taskData.listId)
+        console.log("***** Task.vue - moveTask - taskData: ", this.taskData)
+        this.$store.dispatch('moveTask', this.taskData)
       } //complete moveTask
       //movetask
       // this.taskData.oldId=this.taskdata.listId
