@@ -1,20 +1,17 @@
 <template>
   <div class="boards">
-    <div class="nav-bar container-fluid">
-      <div class="row" id="nav">
-        <div class="col-1">
-          <h1>Cello</h1>
-        </div>
-        <div class="col-9">
-          <form @submit.prevent="addBoard">
-            <input type="text" placeholder="title" v-model="newBoard.title" required>
-            <input type="text" placeholder="description" v-model="newBoard.description">
-            <button type="submit">Create Board</button>
-          </form>
-        </div>
-        <div class="col-2">
-          <button class="btn btn-secondary" @click="logout">Log Out</button>
-        </div>
+    <div class="row boards-nav">
+      <div class="col-9">
+        <form @submit.prevent="addBoard">
+          <div class="input-group">
+            <input type="text" class="form-control" placeholder="title" v-model="newBoard.title" required>
+            <input type="text" class="form-control" placeholder="description" v-model="newBoard.description">
+            <button type="submit" class="btn btn-info">Create Board</button>
+          </div>
+        </form>
+      </div>
+      <div class="col-2">
+        <button class="btn btn-secondary" @click="logout">Log Out</button>
       </div>
     </div>
     <div class="container" id="board-container">
@@ -82,5 +79,12 @@
 
   #board-container {
     padding-top: 10px;
+  }
+
+  .boards>.boards-nav {
+    position: fixed;
+    top: 5px;
+    left: 150px;
+    right: 0;
   }
 </style>

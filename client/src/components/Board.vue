@@ -11,7 +11,7 @@
           <div class="input-group">
             <input type="text" class="form-control" placeholder="Create List" v-model='newList.title'>
             <div class="input-group-append">
-              <button type="submit" class="btn btn-success"><i class="fas fa-plus"></i></button>
+              <button type="submit" class="btn btn-info"><i class="fas fa-plus"></i></button>
             </div>
           </div>
         </form>

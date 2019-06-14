@@ -25,7 +25,7 @@
           <input type="text" class="form-control" placeholder="Comments" v-model="newComment.content">
           <input type="text" class="form-control" placeholder="User" v-model="newComment.user">
           <div class="input-group-append">
-            <button class="btn btn-success" type="submit"><i class="fas fa-plus"></i></button>
+            <button class="btn btn-info" type="submit"><i class="fas fa-plus"></i></button>
           </div>
         </div>
       </form>

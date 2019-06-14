@@ -1,6 +1,10 @@
 <template>
   <div id="app">
-    <router-link to="/">Boards</router-link>
+    <div class="nav-bar container-fluid">
+      <div class="row" id="nav">
+        <router-link to="/" class="app-title">Cello</router-link>
+      </div>
+    </div>
     <router-view />
   </div>
 </template>
@@ -11,7 +15,7 @@
   };
 </script>
 
-<style>
+<style lang="scss">
   #app {
     font-family: "Avenir", Helvetica, Arial, sans-serif;
     -webkit-font-smoothing: antialiased;
@@ -28,19 +32,28 @@
   }
 
   #nav {
-    padding: 30px;
+    padding: 0 30px;
+
+    a {
+      font-weight: bold;
+      color: #2c3e50;
+
+      &.router-link-active {
+        color: #17a2b8;
+      }
+    }
   }
 
-  #nav a {
-    font-weight: bold;
-    color: #2c3e50;
-  }
-
-  #nav a.router-link-exact-active {
-    color: #42b983;
-  }
 
   body {
     background-color: #efefef;
+  }
+
+  a.router-link-active.app-title {
+    font-size: 36px;
+
+    &:hover {
+      text-decoration: none;
+    }
   }
 </style>

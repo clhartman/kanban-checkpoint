@@ -15,7 +15,7 @@
         <input type="text" class="form-control" placeholder="Add a Task" v-model='newTask.title'>
         <input type="text" class="form-control" placeholder="Description" v-model='newTask.description'>
         <div class="input-group-append">
-          <button type="submit" class="btn btn-success"><i class="fas fa-plus"></i></button>
+          <button type="submit" class="btn btn-info"><i class="fas fa-plus"></i></button>
         </div>
       </div>
     </form>
