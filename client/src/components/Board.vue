@@ -8,11 +8,13 @@
               Add
               List
             </button> -->
-        <form class="form-inline" @submit.prevent="submitList" id='form1'>
-          <div class="form-group mx-sm-3 mb-2">
+        <form class="add-list-form" @submit.prevent="submitList" id='form1'>
+          <div class="input-group">
             <input type="text" class="form-control" placeholder="Create List" v-model='newList.title'>
+            <div class="input-group-append">
+              <button type="submit" class="btn btn-success"><i class="fas fa-plus"></i></button>
+            </div>
           </div>
-          <button type="submit" class="btn btn-primary mb-2">Add List</button>
         </form>
       </div>
     </div>

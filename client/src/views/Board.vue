@@ -6,11 +6,15 @@
       <!-- nav bar -->
     </div>
     <div class="row">
-      <div class="col">
+      <div class="col-2">
         <board :boardId="boardId" />
       </div>
-      <div class="col">
-        <list-card v-for="l in lists" :key="l._id" :listData="l" />
+      <div class="col-10">
+        <div class="row">
+          <div class="col" v-for="l in lists">
+            <list-card :key="l._id" :listData="l" />
+          </div>
+        </div>
       </div>
     </div>
 
@@ -57,7 +61,8 @@
 </script>
 <style>
   .board-view {
-    background-image: url(https://images.unsplash.com/photo-1496450681664-3df85efbd29f?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=2700&q=80);
+    background-color: #efefef;
+    /* background-image: url(https://images.unsplash.com/photo-1496450681664-3df85efbd29f?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=2700&q=80); */
     min-height: 100vh;
     background-size: cover;
   }

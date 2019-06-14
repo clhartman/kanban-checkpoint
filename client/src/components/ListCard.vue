@@ -1,20 +1,23 @@
 <template>
-  <div class="list-card">
-    <div class="card" style="width: 18rem;">
-      <div class="card-header">
-        {{listData.title}} <i class="fas fa-trash-alt" @click="deleteList"></i>
+  <div class="card list-card">
+    <div class="card-header list-title">
+      <div class="list-title-text">
+        {{listData.title}}
       </div>
-      <task v-for="task in tasks" :taskData="task" :listData="listData" />
+      <button @click="deleteList" class="btn btn-danger" title="Delete List">
+        <i class="fas fa-trash-alt"></i>
+      </button>
     </div>
+    <task v-for="task in tasks" :taskData="task" :listData="listData" />
     <!-- make new tasks here with task create form -->
-    <form class="form-inline" @submit.prevent="submitTask" id='form1'>
-      <div class="form-group mx-sm-3 mb-2">
+    <form class="add-task-form" @submit.prevent="submitTask" id='form1'>
+      <div class="input-group">
         <input type="text" class="form-control" placeholder="Add a Task" v-model='newTask.title'>
-      </div>
-      <div class="form-group mx-sm-3 mb-2">
         <input type="text" class="form-control" placeholder="Description" v-model='newTask.description'>
+        <div class="input-group-append">
+          <button type="submit" class="btn btn-success"><i class="fas fa-plus"></i></button>
+        </div>
       </div>
-      <button type="submit" class="btn btn-primary mb-2"><i class="fas fa-plus"></i></button>
     </form>
   </div>
 </template>
@@ -58,12 +61,13 @@
 </script>
 
 <style scoped>
-  .col {
+  .list-title {
     display: flex;
-    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
   }
 
-  .card {
-    max-width: 200px;
+  .add-task-form {
+    margin: 10px
   }
 </style>

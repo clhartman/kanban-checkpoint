@@ -1,32 +1,36 @@
 <template>
-  <div class="task">
-    <ul class="list-group list-group-flush">
-      <li class="list-group-item">
-        <h3>{{taskData.title}}<i class="fas fa-eraser" @click="deleteTask"></i></h3>
-        <p>{{taskData.description}}</p>
-
-
-        <!-- complete list drop down menu!! -->
-        <select v-model="selected">
-          <option disabled value="">Move Task...</option>
-          <option v-for="list in lists" :value="list._id" @click="moveTask(selected)">{{list.title}}</option>
-        </select>
-      </li>
-      <li class="list-group-item">
-
-      </li>
-    </ul>
-    <div v-for="(comment, index) in comments" :task="taskData">
-      <p>{{comment.content}} - {{comment.user}}<button class="btn btn-danger"
-          @click="deleteComment(index)">Delete</button></p>
-    </div>
-    <form class="form-inline" @submit.prevent="submitComment">
-      <div class="form-group mx-sm-3 mb-2">
-        <input type="text" class="form-control" placeholder="Comments" v-model="newComment.content">
-        <input type="text" class="form-control" placeholder="User" v-model="newComment.user">
-        <button class="btn btn-info" type="submit"><i class="fas fa-plus"></i></button>
+  <div class="card task">
+    <div class="card-header task-header">
+      <div class="task-title">
+        <div>{{taskData.title}}</div>
+        <button title="Delete Task" class="btn btn-danger" @click="deleteTask">
+          <i class="fas fa-trash-alt"></i>
+        </button>
       </div>
-    </form>
+      <p>{{taskData.description}}</p>
+      <select v-model="selected">
+        <option disabled value="">Move Task...</option>
+        <option v-for="list in lists" :value="list._id" @click="moveTask(selected)">{{list.title}}</option>
+      </select>
+    </div>
+    <div class="card-body task-body">
+      <div v-for="(comment, index) in comments" class="comment" :task="taskData">
+        <div>{{comment.content}} - {{comment.user}}</div>
+        <button title="Delete Comment" class="btn btn-danger" @click="deleteComment(index)">
+          <i class="fas fa-trash-alt"></i>
+        </button>
+      </div>
+      <form class="add-comment-form" @submit.prevent="submitComment">
+        <div class="input-group">
+          <input type="text" class="form-control" placeholder="Comments" v-model="newComment.content">
+          <input type="text" class="form-control" placeholder="User" v-model="newComment.user">
+          <div class="input-group-append">
+            <button class="btn btn-success" type="submit"><i class="fas fa-plus"></i></button>
+          </div>
+
+        </div>
+      </form>
+    </div>
   </div>
 </template>
 
@@ -85,5 +89,27 @@
   }
 </script>
 <style>
+  .task-title {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
 
+  .task-body {
+    background-color: lightblue;
+  }
+
+  .task {
+    margin: 10px;
+  }
+
+  .add-comment-form {
+    margin: 10px
+  }
+
+  .comment {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
 </style>

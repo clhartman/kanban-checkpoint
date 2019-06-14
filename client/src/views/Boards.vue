@@ -18,11 +18,7 @@
       </div>
     </div>
     <div class="container" id="board-container">
-      <div class="row">
-        <div class="col" id="list-cards">
-          <boards-list />
-        </div>
-      </div>
+      <boards-list />
     </div>
   </div>
 </template>
@@ -84,8 +80,7 @@
     align-content: space-between;
   }
 
-  #list-cards {
-    display: flex;
-    flex-direction: row;
+  #board-container {
+    padding-top: 10px;
   }
 </style>
